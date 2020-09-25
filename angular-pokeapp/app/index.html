@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en" ng-app="pokeApp">
+  <head>
+    <meta charset="utf-8">
+    <title>PokeApp</title>
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="lib/css/styles.css" />
+    <link rel="stylesheet" href="lib/css/responsive.css" />
+    <!-- vendor -->
+    <script src="lib/jquery/dist/jquery.slim.min.js"></script>
+    <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- custom js -->
+    <script src="lib/js/scripts.js?v=1.0"></script>
+    <!-- angular -->
+    <script src="lib/angular/angular.min.js"></script>
+    <script src="lib/angular-route/angular-route.min.js"></script>
+    <script src="lib/angular-animate/angular-animate.min.js"></script>
+    <!-- main module -->
+    <script src="pokeapp.module.js"></script>
+    <script src="pokeapp.config.js"></script>
+    <!-- core module, module independent features -->
+    <script src="core/core.module.js"></script>
+    <script src="core/stringFormat/stringFormat.filter.js"></script>
+    <!-- List View -->
+    <script src="pokemon-detail-list/pokemon-detail-list.module.js"></script>
+    <script src="pokemon-detail-list/pokemon-detail-list.component.js"></script>
+    <!-- Page View  -->
+    <script src="pokemon-detail-page/pokemon-detail-page.module.js"></script>
+    <script src="pokemon-detail-page/pokemon-detail-page.component.js"></script>
+  </head>
+  <body>
+
+    <div ng-view></div>
+
+  </body>
+</html>

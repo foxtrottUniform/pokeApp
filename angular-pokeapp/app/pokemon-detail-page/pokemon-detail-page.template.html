@@ -1,0 +1,264 @@
+<div class="jumbotron jumbotron-fluid pokemon-detail__intro">
+	<div class="container">
+
+		<div class="mb-4">
+			<a href="/#!/pokemon" class="btn btn-light">Back to list</a>
+		</div>
+
+		<h1 class="display-4 mb-4 capitalize-first">{{$ctrl.pokemonData.name}}</h1>
+		<p class="lead">{{$ctrl.pokemonDataSpecies.flavor_text_entries[0].flavor_text}}</p>
+		<hr class="my-4" />
+
+		<div class="row">
+			<div class="col-sm">
+				<div class="row">
+					<span class="col-6 text-secondary">Capture Rate</span>
+					<span class="col text-info text-align-left">{{$ctrl.pokemonDataSpecies.capture_rate}}</span>
+				</div>
+			</div>
+			<div class="col-sm">
+				<div class="row">
+					<span class="col-6 text-secondary">Happiness</span>
+					<span class="col text-info text-align-left">{{$ctrl.pokemonDataSpecies.base_happiness}}</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="row my-1">
+			<div class="col-sm">
+				<div class="row">
+					<span class="col-6 text-secondary">Growth Rate</span>
+					<span class="col text-info text-align-left">{{$ctrl.pokemonDataSpecies.growth_rate.name | formatString}}</span>
+				</div>
+			</div>
+			<div class="col-sm">
+				<div class="row">
+					<span class="col-6 text-secondary">Egg Groups</span>
+					<div class="col text-align-left">
+						<span class="text-success"
+						ng-repeat="eg in $ctrl.pokemonDataSpecies.egg_groups">
+						{{eg.name | formatString}}
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<div class="pokemon-detail">
+	<div class="container">
+
+		<!-- Modal used as lightbox-->
+		<div class="modal fade" id="lightbox" tabindex="-1" aria-labelledby="lightboxLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title capitalize-first" id="lightboxLabel">{{$ctrl.pokemonData.name}}</h3>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						  <span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body text-center">
+						<img class="col lightbox-image"
+						ng-src="{{$ctrl.pokemonData.sprites.other.dream_world.front_default}}" 
+						alt="{{$ctrl.pokemonData.name}}"
+						/>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+
+			<div class="col-sm pokemon-detail__image__wrapper">
+				<!-- modal not on phones -->
+				<img data-toggle="modal" data-target="#lightbox" class="pokemon-detail__image d-none d-md-block"
+				ng-src="{{$ctrl.pokemonData.sprites.other.dream_world.front_default}}" 
+				alt="{{$ctrl.pokemonData.name}}"
+				/>
+				<!-- show normal image for phones -->
+				<img class="pokemon-detail__image d-md-none"
+				ng-src="{{$ctrl.pokemonData.sprites.other.dream_world.front_default}}" 
+				alt="{{$ctrl.pokemonData.name}}"
+				/>
+			</div>
+
+			<div class="col-sm">
+				<div class="row">
+
+					<div class="container-fluid">	
+						<h2 class="font-weight-bold mb-4">Pokedex Infos</h2>
+					</div>
+
+					<div class="col-sm">
+
+						<div class="row mb-3">
+							<div class="col-sm text-secondary">Pokemon Type(s)</div>
+							<div class="col-sm">
+
+								<div class="d-inline" 
+									ng-repeat="type in $ctrl.pokemonData.types">
+
+									<span class="py-1 px-2 badge badge-pill {{type.type.name}}">
+										{{type.type.name.toUpperCase()}}
+									</span>&nbsp;
+
+								</div>
+
+							</div>
+						</div>
+						
+						<div class="row mb-3">
+							<div class="col-sm text-secondary">Order Number</div>
+							<div class="col-sm">#{{$ctrl.pokemonData.order}}</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm text-secondary">Abilities</div>
+							<div class="col-sm font-weight-light">
+								<span ng-repeat="ability in $ctrl.pokemonData.abilities">
+									{{ability.ability.name | formatString }}<!--
+									--><i ng-if="$index < $ctrl.pokemonData.abilities.length -1">,</i>
+								</span>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+
+		<h2 class="font-weight-bold my-5 animInView scale">Stats</h2>
+
+		<div class="mb-3 row animInView fadeInY" ng-repeat="stat in $ctrl.pokemonData.stats">
+			
+			<div class="col-sm-4 font-weight-bold text-secondary capitalize-first pokemon-detail__stat-name">{{stat.stat.name | formatString}}</div>
+			<div class="col-sm">
+				<div class="progress" style="height:25px;">
+					
+					<div class="progress-bar" 
+					ng-class="[{'bg-danger': stat.base_stat <= 50}, {'bg-warning': stat.base_stat > 50 && stat.base_stat < 100}, {'bg-success': stat.base_stat >= 100 }]" 
+					role="progressbar" style=" width: {{stat.base_stat/2}}%" 
+					aria-valuenow="{{stat.base_stat}}" aria-valuemin="0" aria-valuemax="{{stat.base_stat}}">
+						<strong>{{stat.base_stat}}</strong>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+
+
+		<h2 class="font-weight-bold my-5 animInView scale">Moves</h2>
+
+		<table class="table table-hover table-striped">
+
+			<thead class="thead-dark clickable user-select-none">
+				<th ng-class="{'active' : moveOrder == 'name'}" ng-click="orderMovesBy('name')">
+					<span>Name</span>
+					<span ng-show="moveOrder != 'name'">&#8691;</span>
+					<span ng-show="reverse && moveOrder == 'name'">&#8679;</span>
+					<span ng-show="reverse == false && moveOrder == 'name'">&#8681;</span>
+				</th>
+				<th ng-class="{'active' : moveOrder == 'accuracy'}" ng-click="orderMovesBy('accuracy')">
+					<span>Accuracy</span>
+					<span ng-show="moveOrder != 'accuracy'">&#8691;</span>
+					<span ng-show="reverse && moveOrder == 'accuracy'">&#8679;</span>
+					<span ng-show="reverse == false && moveOrder == 'accuracy'">&#8681;</span>
+				</th>
+				<th ng-class="{'active' : moveOrder == 'power'}" ng-click="orderMovesBy('power')">
+					<span>Power</span>
+					<span ng-show="moveOrder != 'power'">&#8691;</span>
+					<span ng-show="reverse && moveOrder == 'power'">&#8679;</span>
+					<span ng-show="reverse == false && moveOrder == 'power'">&#8681;</span>
+				</th>
+				<th ng-class="{'active' : moveOrder == 'damage_class'}" ng-click="orderMovesBy('damage_class')">
+					<span>Damage Class</span>
+					<span ng-show="moveOrder != 'damage_class'">&#8691;</span>
+					<span ng-show="reverse && moveOrder == 'damage_class'">&#8679;</span>
+					<span ng-show="reverse == false && moveOrder == 'damage_class'">&#8681;</span>
+				</th>
+				<th ng-class="{'active' : moveOrder == 'category'}" ng-click="orderMovesBy('category')">
+					<span>Category</span>
+					<span ng-show="moveOrder != 'category'">&#8691;</span>
+					<span ng-show="reverse && moveOrder == 'category'">&#8679;</span>
+					<span ng-show="reverse == false && moveOrder == 'category'">&#8681;</span>
+				</th>
+				<th ng-class="{'active' : moveOrder == 'type'}" ng-click="orderMovesBy('type')">
+					<span>Type</span>
+					<span ng-show="moveOrder != 'type'">&#8691;</span>
+					<span ng-show="reverse && moveOrder == 'type'">&#8679;</span>
+					<span ng-show="reverse == false && moveOrder == 'type'">&#8681;</span>
+				</th>
+			</thead>
+
+			<tbody>
+				<tr ng-repeat="move in $ctrl.pokemonDataMoves | orderBy: moveOrder : reverse">
+					<td>{{move.name | formatString }}</td>
+					<td>{{move.accuracy}}</td>
+					<td>{{move.power}}</td>
+					<td>{{move.damage_class}}</td>
+					<td>{{move.category}}</td>
+					<td><span class="badge badge-pill {{move.type}}">{{move.type.toUpperCase()}}</span></td>
+				</tr>
+			</tbody>
+
+		</table>
+
+
+		<h2 class="font-weight-bold my-5 animInView scale">Evolution Chain</h2>
+
+		<div class="evolution-chain">
+
+			<!-- evolution group -->
+			<div class="evolution__group" ng-repeat="evolutionGroup in $ctrl.pokemonDataEvolution">
+
+				<!-- evolution element in group -->
+				<div class="evolution__element mb-2 text-center" ng-repeat="evolution in evolutionGroup">
+					<div ng-if="$index > 0" class="evolution__element__step mb-1">
+						<div class="arrow">&darr;</div> 
+						<div class="font-weight-light"><i>{{evolution.evolution_details}}</i></div>
+					</div>
+					<span class="lead capitalize-first">{{evolution.name}}</span>
+					<img ng-src="{{evolution.image}}" alt="{{evolution.name}}"/>
+
+					<!-- evoltution types per pokemon -->
+					<span 
+					ng-repeat="type in evolution.types" 
+					class="badge badge-pill {{type.name}}">
+						{{type.name.toUpperCase()}}
+					</span>
+				</div>
+
+			</div>
+
+
+			<div class="alert alert-danger" role="alert" ng-if="! $ctrl.pokemonDataEvolution.length">
+				There are no evolutions for this pokemon
+			</div>
+		</div>
+
+		<div class="my-4">
+			<a href="/#!/pokemon" class="btn btn-info">Back to list</a>
+		</div>
+
+
+		<!-- spinner -->
+		<div class="fullscreen-bg" ng-hide="$ctrl.movesLoaded">
+			<div class="m-3 spinner-grow text-primary" role="status">
+			  <span class="sr-only">Loading...</span>
+			</div>
+			<div class="m-3 spinner-grow text-success" role="status">
+			  <span class="sr-only">Loading...</span>
+			</div>
+			<div class="m-3 spinner-grow text-danger" role="status">
+			  <span class="sr-only">Loading...</span>
+			</div>
+		</div>
+
+	</div>
+</div>

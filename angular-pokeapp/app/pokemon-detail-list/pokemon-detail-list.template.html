@@ -1,0 +1,86 @@
+<!-- Menu Bar Top -->
+<div class="container-fluid jumbotron" id="top-bar">
+	
+	<div class="row">
+		
+		<div class="col-sm">
+			<h1 class="display-4" id="top-bar-title">Pokedex App</h1><br/>
+		</div>
+
+	</div>
+
+	<div class="row">
+
+		<div class="col-sm">
+			<span class="lead">Search for pokemon</span>
+			<input placeholder="At least 3 characters" class="form-control" type="text" ng-model="$ctrl.search" />
+		</div>
+
+		<div class="col-sm">
+		  <span class="lead">
+		  	Sort by:
+		  </span>
+		  <select class="form-control" ng-model="$ctrl.orderProperty">
+		    <option value="order">Order Number</option>
+		    <option value="name">Name</option>
+		    <option value="types[0].type.name">Primary Type</option>
+		  </select>
+		</div>
+	</div>
+</div>
+
+<div id="content">
+
+	<!-- info messages -->
+	<div ng-class="{ 'alert-success' : filteredPokemon != 0, 'alert-warning' : filteredPokemon == 0 }" class="alert " role="alert">
+	  
+		<p class="m-0" ng-if="filteredPokemon != 0">Found <strong>{{filteredPokemon.length}}</strong> Pokemon in list</p>
+		<p class="m-0" ng-if="filteredPokemon == 0">No pokemon found with that name: <strong>{{$ctrl.search}}</strong></p>
+
+	</div>
+
+	<!-- Pokemon list view -->
+	<ul class="pokemon__list list--nobullets">
+
+		<li
+		ng-repeat="pokemon in $ctrl.pokemons 
+		| orderBy: $ctrl.orderProperty 
+		| filter: $ctrl.search as filteredPokemon"
+		class="pokemon__wrapper">
+
+			<a class="card text-center pokemon" href="#!/pokemon/{{pokemon.id}}">
+
+				<span class="font-weight-light text-dark pokemon__id">#{{pokemon.id}}</span>
+
+				<span class="pokemon__thumb__wrapper">
+					<img class="pokemon__thumb__shiny" ng-src="{{pokemon.sprites.front_shiny}}" alt="{{pokemon.name}} - shiny" />
+					<img class="pokemon__thumb__default" ng-src="{{pokemon.sprites.front_default}}" alt="{{pokemon.name}} - default" />
+				</span>
+
+				<strong class="card-title pokemon__name text-secondary capitalize-first">{{pokemon.name}}</strong>
+
+				<p ng-repeat="type in pokemon.types" class="pokemon__type badge badge--pill {{type.type.name}}">
+					{{type.type.name.toUpperCase()}}
+				</p>
+
+			</a>
+
+		</li>
+
+	</ul>
+
+
+	<!-- spinner -->
+	<div class="fullscreen-bg" ng-hide="$ctrl.pokemonLoaded">
+		<div class="m-3 spinner-grow text-primary" role="status">
+		  <span class="sr-only">Loading...</span>
+		</div>
+		<div class="m-3 spinner-grow text-success" role="status">
+		  <span class="sr-only">Loading...</span>
+		</div>
+		<div class="m-3 spinner-grow text-danger" role="status">
+		  <span class="sr-only">Loading...</span>
+		</div>
+	</div>
+
+</div>

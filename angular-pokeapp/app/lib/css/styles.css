@@ -1,0 +1,282 @@
+/*
+* general styles
+*/
+html,body{
+	margin:0;
+	padding: 0;
+}
+a{
+	text-decoration: none !important;
+}
+img{
+	max-width: 100%;
+}
+.fullscreen-bg{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background-color: rgba(255,255,255,.75);
+	z-index: 9999;
+}
+
+/*bootstrap overrides*/
+.badge{
+	color: #fff !important;
+	text-shadow: 0px 0px 1px #353030;
+}
+table thead.clickable th {
+	cursor: pointer;
+}
+table thead th {
+    vertical-align: top;
+}
+table thead th.active {
+    background-color: #68737e !important;
+    border-color: #68737e !important;
+}
+.table-hover tbody tr:hover {
+    color: #000;
+    background-color: rgba(106, 99, 140, 0.24);
+}
+
+/*
+* POKEMON LIST VIEW
+*/
+#top-bar{
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+#content{
+	margin: 30px;
+}
+.list--nobullets{
+	list-style-type: none;
+}
+.pokemon__list{
+	display: flex;
+	flex-flow:row wrap;
+	justify-content:space-between;
+	padding-left: 0;
+}
+.pokemon__wrapper{
+	display: inline-flex;
+	margin: 30px;
+}
+.pokemon__thumb__wrapper{
+	position: relative;
+	padding: 30px;
+	margin:30px 0;
+	width: 156px;
+	display: flex;
+	align-content: center;
+	align-items: center;
+}
+.pokemon{
+	transition:background-color .3s;
+}
+.pokemon__id,.pokemon__name{
+	transition: transform .3s;
+}
+
+/* hover only on desktop 
+* -> iOS not user friendly- double tap
+*/
+@media screen and (min-width: 768px){
+	.pokemon:hover .pokemon__thumb__default{
+		opacity: 0;
+		transform:scale(1.05);
+	}
+	.pokemon:hover .pokemon__thumb__shiny{
+		opacity: 1;
+		transform:scale(1.05);
+	}
+	.pokemon:hover{
+		background-color: #f7f7f7;
+	}
+	.pokemon:hover .pokemon__id,
+	.pokemon:hover .pokemon__name{
+		transform: scale(1.05);
+	}
+}
+.pokemon__thumb__wrapper img{
+	position: absolute;
+	transition: all .3s;
+}
+.pokemon__thumb__default{
+	opacity: 1;
+}
+.pokemon__thumb__shiny{
+	opacity: 0;
+}
+.pokemon__type{
+	border-radius:0 !important;
+	margin: 0;
+}
+
+.pokemon__type:only-of-type{
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
+/*
+* POKEMON DETAIL VIEW
+*/
+
+.pokemon-detail{
+	width: 95%;
+	margin: 0 auto;
+}
+.pokemon-detail__intro{
+	padding: 2rem;
+	margin-bottom: 5rem;
+}
+
+.capitalize-first::first-letter{
+	text-transform: uppercase;	
+}
+
+.pokemon-detail__image{
+	height: 300px;
+	transition: all .3s ease-in-out;
+}
+.lightbox-image{
+	max-height: 70vh;
+}
+@media screen and (min-width: 768px){
+	.pokemon-detail__image:hover{
+		cursor: pointer;
+		transform: scale(1.025);
+	}
+}
+
+.evolution-chain{
+	display: flex;
+	flex-flow:row wrap;
+	align-items:flex-start;
+	justify-content:space-between;
+}
+
+.evolution__element,.evolution__group{
+	display: flex;
+	align-items:center;
+	flex-flow:column wrap;
+	margin: 30px 10px;
+}
+.evolution__element__wrapper{
+	display: flex;
+	flex-direction:column;
+}
+.evolution__element__step{
+	width: 200px;
+	white-space: pre-wrap;
+}
+
+.arrow{
+	font-size: 60px;
+	line-height: 1;
+}
+
+/*
+* POKEMON TYPE COLORS
+*/
+.normal{
+	background-color: #d7d7c5;
+}
+.fire{
+	background-color:#db2706;
+}
+.water{
+	background-color:#0067ce;
+}
+.electric{
+	background-color:#ffbf00;
+}
+.grass{
+	background-color:#69db3c;
+}
+.ice{
+	background-color:#8bc7e6;
+}
+.fighting{
+	background-color:#d95641;
+}
+.poison{
+	background-color:#4f9507;
+}
+.ground{
+	background-color:#8e4402;
+}
+.flying{
+	background-color:#9f9f9f;
+}
+.psychic{
+	background-color:#bb1b5b;
+}
+.bug{
+	background-color:#949f36;
+}
+.rock{
+	background-color:#625d4a;
+}
+.ghost{
+	background-color:#8c8cb9;
+}
+.dragon{
+	background-color:#663fbd;
+}
+.dark{
+	background-color:#1e1009;
+}
+.steel{
+	background-color:#656573;
+}
+.fairy {
+	background-color:#e18de1;
+}
+
+/*animations*/
+
+.pokemon__wrapper {
+  transition: all .3s;
+}
+
+.pokemon__wrapper.ng-enter,
+.pokemon__wrapper.ng-move,
+.pokemon__wrapper.ng-leave {
+  opacity: 0;
+  transform: scale(.95);
+}
+
+.pokemon__wrapper.ng-enter.ng-enter-active,
+.pokemon__wrapper.ng-move.ng-move-active,
+.pokemon__wrapper.ng-leave.ng-leave-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.animInView{
+	transition: all .75s cubic-bezier(.65,.05,.36,1);
+	transition-delay: .15s;
+	opacity: 0;
+}
+.animInView.fadeInY{
+	transform: translateY(10px);
+}
+.animInView.scale{
+	transform: scale(.95);
+}
+
+.animInView.anim{
+	opacity: 1;
+}
+.animInView.anim.fadeInY{
+	transform: translateY(0);
+}
+.animInView.anim.scale{
+	transform: scale(1);
+}
